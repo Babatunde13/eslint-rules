@@ -1,8 +1,9 @@
 const path = require('path')
-const fs = require('fs/promises')
+const glob = require('glob')
 const { ESLint } = require('eslint')
 const eslintConfig = require('./.eslintrc')
 
+// https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color - change color of console
 const errorLog = (data) => {
   console.log('\x1b[31m', data)
 }
@@ -19,7 +20,12 @@ const infoLog = (data) => {
   infoLog('Linting files...')
 
   const cwd = process.cwd()
-  const files = await fs.readdir(cwd)
+  const files = glob.sync('**/*', {
+    cwd,
+    ignore: ['node_modules/**', '**/node_modules/**', '.vscode/**'],
+    nodir: true
+  })
+  console.log(files)
   const errors = []
 
   const filesToLint = files.filter((file) => {
