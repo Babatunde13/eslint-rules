@@ -25,7 +25,6 @@ const infoLog = (data) => {
     ignore: ['node_modules/**', '**/node_modules/**', '.vscode/**'],
     nodir: true
   })
-  console.log(files)
   const errors = []
 
   const filesToLint = files.filter((file) => {

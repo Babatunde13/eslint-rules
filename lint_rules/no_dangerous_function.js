@@ -9,13 +9,16 @@ const lintCode = (context, node) => {
   context.report({
     node,
     message: 'function name cannot be "dangerous"',
+    fix: (fixer) => fixer.replaceText(node, 'notDangerous'),
   })
 }
 
+// https://eslint.org/docs/developer-guide/working-with-rules - working with custom rules
 module.exports = {
   meta: {
     name: 'no-dangerous-func',
     type: 'problem',
+    fixable: 'code',
     docs: {
       description: 'Disallow the use of the dangerous function outside of `dangerous/`.',
       category: 'Possible Errors',
@@ -25,12 +28,12 @@ module.exports = {
   create: (context) => ({
     CallExpression(node) {
       if (node.callee.name === 'dangerous') {
-        lintCode(context, node)
+        lintCode(context, node.callee)
       }
     },
     FunctionDeclaration(node) {
       if (node.id.name === 'dangerous') {
-        lintCode(context, node)
+        lintCode(context, node.id)
       }
     }
   })
