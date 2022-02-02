@@ -5,17 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "node lint_files.js"
+    "lint": "node dist/lint_files.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^8.8.0",
     "glob": "^7.2.0"
   },
   "devDependencies": {
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint": "^8.8.0",
+    "@types/eslint": "^8.4.1",
+    "@types/glob": "^7.2.0",
+    "@types/node": "^17.0.14",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-airbnb-base": "^15.0.0"
   }
 }
