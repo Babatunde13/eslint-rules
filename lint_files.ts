@@ -7,6 +7,10 @@ const errorLog = (data: string) => {
     console.log('\x1b[31m', data)
 }
 
+const warningLog = (data: string) => {
+    console.log('\x1b[33m', data)
+}
+
 const successLog = (data: string) => {
     console.log('\x1b[32m', data)
 }
@@ -24,7 +28,8 @@ const infoLog = (data: string) => {
         ignore: ['node_modules/**', 'dist/**', '.vscode/**'],
         nodir: true
     })
-    const errors = []
+    const errors: string[] = []
+    const warnings: string[] = []
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { ESLint } =  require('eslint')
 
@@ -57,6 +62,11 @@ const infoLog = (data: string) => {
             if (lintResult.length) {
                 lintResult.forEach((r: any) => {
                     r.messages.forEach((m: any) => {
+                        if (m.severity === 1) {
+                            warnings.push(
+                                `⚠️ ${`eslint(${m.ruleId || ''})`} - ${m.message} at ${r.filePath}:${m.line}:${m.column}`
+                            )
+                        }
                         if (m.severity === 2) {
                             errors.push(
                                 `❌ ${`eslint(${m.ruleId || ''})`} - ${m.message} at ${r.filePath}:${m.line}:${m.column}`
@@ -67,6 +77,15 @@ const infoLog = (data: string) => {
             }
         } catch (e) {
             errors.push((e as Error).message)
+        }
+    }
+
+    if (warnings.length) {
+        console.log('\x1b[33m', '\x1b[4m', 'Warnings..')
+        console.log('%s\x1b[0m', '\t')
+        for (const warning of warnings) {
+            warningLog(warning)
+            console.log()
         }
     }
 
